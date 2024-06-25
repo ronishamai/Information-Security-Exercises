@@ -1,0 +1,16 @@
+Explanation:
+
+For the verify action with the correct command and signature, as first we:
+
+1. create a JSON file with the initial command and signature.
+2. start a subprocess and execute "run.py" with the above file as an argument.
+
+Now, after the verify action, we stop the subprocess to change the command the subprocess will execute 
+(i chose 0.1 by time.time() and checking how many time the verifing takes, while we need the execution won`t start in this point of time):
+
+3. stop the subprocess ("run.py") executaion for 0.1 seconds.
+4. replace the file`s content with "echo hacked".
+
+Finish by:
+
+5. wait for the subprocess execution to finish.

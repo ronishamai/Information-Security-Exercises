@@ -1,0 +1,12 @@
+Q3:
+
+THE KEY IDEA OF WHAT THE GIVEN CODE DOES:
+The code copies a string, byte by byte, using a loop, from ESI register to EDI register. 
+
+
+IF MORE DETAIL IS REQUIRED:
+The code starts coping the string to the EDI register, when it reach to zero in the memory (moving forward EDI in memory by loop, until pointing on
+zero).
+
+Then, it start with a loop that responsible for coping the string: the AL register is used as a temporary store when transferring the current char
+in memory from ESI to EDI, advansing the registers to the next place in memory, and finishing when we reach to zero. 

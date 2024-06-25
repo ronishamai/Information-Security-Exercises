@@ -1,0 +1,31 @@
+Q1
+Since the cookies are unsigned and therefore also the server isn't/cant validiting them, we can easily change the cookie value,
+so we encode the cookie of the username with base64, and then the server decode it and think we are the username we claim we are.
+
+Q2
+We are adding channel name with <script></script> tag that runs the functions SwitchChannel to general span
+Then we change the value of the message input field to the required message
+Then we post the message with PostMessage function
+Because we added the <script></script> to the channel name, every user that log in or refresh runs the script.
+
+Q3
+we add image command, but with a twist, we set the src to be a nonsense link, therefore will always fail and the onerror tag will be called,
+afterward on the onerror we check if it has cat in localstorage, if no - we display the message by changing the src attribute to the image link, and removing the display none 
+attribute by settings style attribute to ''
+if there is cat in the local storage - it means he already saw the image, therefore keeping the src to be invalid and not remvoing the display none attribute.
+
+Q4
+SQL Injection:
+One can notice that the db function  executescript is not safe and not sanitized the parameters, therefore we use sql injection techinque to finish the query without any change, 
+then change the password of bob to sha1('1234');
+aftewards we add -- to comment the rest of the original query to avoid errors.
+
+Q5
+As suggested, we use the ajax function to post a message, we took the uri and paramters to pass to post a message from the code.js PostMessage function,
+in the url we added the url of the server + the uri (http://0.0.0.0:8000/post)
+but now we change it to ajax function with
+xhrFields: withCredentials: true
+So it sends also the cookies of the user
+because the function appears on <script></script> on the head section of the html page, it automatically runs for every user that log in that page, therefore the user automatically 
+send a message.
+

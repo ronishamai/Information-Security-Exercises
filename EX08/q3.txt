@@ -1,0 +1,25 @@
+#Q3.0
+used the commands ip route, ip neigh, ip addr and found:
+-self.our_ip = 10.0.2.15
+-self.our_mac = 08:00:27:69:e6:c9
+-self.gateway_ip = 10.0.2.1
+-self.gateway_mac = 52:54:00:12:35:00
+
+#Q3.1
+is_packet_to_original_gateway - two conditions:
+1. validated that the packets are to the gateway, by comparision to the gateway_mac - 
+   because it`s "inside" the path.
+2. validated that the packets are from OTHER computers, by comparision to our_ip because
+   it`s the end-point target, "at the end" of the path.
+
+
+#Q3.2
+create_poison: created an ARP packet to send to the victim machine, as detailed in: 
+https://www.geeksforgeeks.org/python-how-to-create-an-arp-spoofer-using-scapy/ and in 
+https://www.iana.org/assignments/arp-parameters/arp-parameters.xhtml.
+
+#Q3.3
+ is_stolen_packet - two conditions:
+1. validated that it has our MAC address, by comparision to our_mac.
+2. validated that his packet was not supposed to be sent to us, by comparision to our_ip 
+   because it`s the end-point target, "at the end" of the path.

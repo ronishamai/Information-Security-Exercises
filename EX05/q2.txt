@@ -1,0 +1,11 @@
+First, I wrote the program in a C file according to the instructions given in the assignment and according to previous knowledge from the OS course.
+
+After that, I moved to writing the assembly file in a parallel way - the order of operations is creating a socket, performing connect, and then
+performing dup2 between the new socket and STDIN, STDOUT, STDERR. Then performing execv to "/bin/sh" and finally exiting the program with exit(0).
+
+In the Python file, I created the buffer content in such a way that I overwrite the return address to be the beginning of the shellcode I wrote in 
+the assembly file. I chose the message to be the desired length similar to question 1, and in the desired structure (first 4 bytes for the size, then 
+a nop-slide of the size corresponding to what we saw in the lecture, the shellcode and then the return address). The return address I chose leads us 
+to nop slide so that we fall into it, and continue to execute the shell code. The calculation was according to the eip what is the core file in ques
+1, less a certain number (I chose 0x300) that will lead us to nops. It should be mentioned that I also solved the question using IDA (for example for
+the addresses of the functions for the asm file), and also using GDB as we learned in practice).

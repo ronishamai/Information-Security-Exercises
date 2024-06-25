@@ -1,0 +1,8 @@
+- I changed the instruction: mov eax,1 in the part of invalid msg (the rerurn value)/
+- The changes I made in defining the command, were made according to:
+    1. the mov instruction opcodes.
+    2. the constatn 0 representation.
+- In practice - what I wanted to do is always to mov to eax that stores the return value the value 0.
+- I padded with nops in order to get the same code length of the program and the patched.
+- I returned the patched after all the changes.
+* notice that the mov here is a 5 bytes instructions, when in q1d the instructions where 2 bytes.

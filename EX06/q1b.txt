@@ -1,0 +1,10 @@
+Addresses:
+
+# &system: 0xb7b4f040
+Since system is not in the PLT, use GDB to find the real address of system which will be loaded at runtime (as part of libc): gdb ./sudo -> break main -> run -> print system: 0xb7b4f040.
+(Updated the wanted address inside system in addresses.py).
+
+# $"/bin/sh": 0xb7c96338
+Searched the .rodata section of libc for an occurrence of "/bin/sh": gdb ./sudo -> break main -> run -> info files -> (.rodata starts at 0xb7af9000, ends at 0xb7afa1fa) -> find 0xb7af9000, 0xb7afa1fa, "/bin/sh" -> 0xb7c96338.
+
+The password skeleton is from slide 15, lec 5, as we did in class.

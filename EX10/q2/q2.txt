@@ -1,0 +1,15 @@
+In "https://docs.python.org/2/library/pickle.html", There is the warning:
+Warning The pickle module is not secure against erroneous or maliciously constructed data. 
+Never unpickle data received from an untrusted or unauthenticated source.
+
+Then, I read in: "https://davidhamann.de/2020/04/05/exploiting-python-pickle/", about Pickle exploits. 
+I found an example, under "Creating the exploit" and changed it with the wanted commands.
+
+Explanation:
+
+We called our class ECHO_HACKED and let its __reduce__ method return a tuple of a callable and a tuple of arguments. 
+Our callable is os.system and the argument a shell code that prints 'hacked'.
+
+We did the same with EXIT class, when our callable here is sys.exit.
+
+Then, instead of sending valid username & password, I sent ECHO_HACKED() and EXIT()!

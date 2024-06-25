@@ -1,0 +1,68 @@
+Q1A
+
+
+1. analyze_scan:
+
+How to interpret responses to a SYN probe: (from: https://nmap.org/book/synscan.html)
+
+#    Probe Response: TCP SYN/ACK response
+     Assigned State: open
+
+#    Probe Response: TCP RST response
+     Assigned State: closed
+
+#    Probe Response: No response received (even after retransmissions)
+     Assigned State: filtered
+
+#    Probe Response: ICMP unreachable error (type 3, code 1, 2, 3, 9, 10, or 13)
+     Assigned State: filtered
+
+According to the interpretation above, and with scappy - I implemented the analyze scan based on the answered and unanswered packets returned from `sr`.
+	
+
+
+2. generate_syn_packets: Used scappy to built a packet for every port in ports, with the right ip (ip -a).
+
+
+Q1B
+
+
+# the data structire I chose to used: 
+
+A dict, which it`s keys are the ip addresses, and it`s values are lists, s.t. each of the lists contains all the times of the SYN packets in the sliding window.
+
+# generate_block_command:
+
+the command "iptables -A INPUT -s <ip> -j DROP" is used to drop all incoming traffic from the specified ip address.
+
+# on_packet:
+
+We will first check if the ip is in the dictionary or not. If it is not found - we will define a new list for it, and if it is found - then we will go through all 
+the times of the SYN packets in its list and compare it to the current time minus the WINDOW. We will update the appropriate list to contain only the times of the 
+SYN packets that match the condition. Finally, we will check if the amount of times in the ip list is greater than MAX_ATTEMPTS, and if so we will block the current ip.
+
+
+Q1C
+
+
+The vulnerability I found in the firewall`s design & relation to DoS attack:
+
+The firewall checks only the number of SYN packects from an ip in the last 60 seconds, and blocks this ip address in case of the number is greater then MAX_ATTEMPS. 
+The attacker can exploit this by sending a lot of SYN packets from multiple ip`s (s.t. the firewall won`t be able to recognize only one address of him and to block it). 
+The result of this would be that the victim machine won`t be able to handle traffic anymore - a DoS attack.
+
+
+Q1D
+
+
+# sent a SYN ACK packet:
+    
+    ip-dst <- ip-src
+    port-dst <- port-src
+    port-src <- port-dst
+    flsgs <- 'SA', indicates a SYN ACK packet
+    
+    The exchange in the fields is done because we want to reply; the sender will be the receiver, and the receiver will be sender.
+    
+# for every SYN:
+    indicated by 'S' flag.

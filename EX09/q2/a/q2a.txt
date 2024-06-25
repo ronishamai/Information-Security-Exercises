@@ -1,0 +1,9 @@
+Tracks:
+
+1. TCP packets - by: packet.haslayer(TCP)
+2. Containing the word love - by: bytes(packet[TCP].payload).decode().find('love') 
+   comparison to -1 (we take the decoded payload of the TCP packet and tries to find in it the word 'love').
+
+and:
+
+3. Adds the senders IP to the unpersons set if 1,2 are TRUE - by: unpersons.add(packet[IP].src). Else - do nothing (None).

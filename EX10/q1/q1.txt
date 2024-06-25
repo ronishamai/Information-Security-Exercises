@@ -1,0 +1,6 @@
+The vulnerability:
+
+In the function validate_script in run.py, as first we open & read the data in the given path, and then we do: data = eval(data).
+The eval() function is used to evaluate the string as code.
+So, we can exploit this and instead of sending "valid" username, password etc. to send a code (command) which prints 'hacked', and a code which exit the program.
+Because of eval(), there will be an execution of the given code, and the authentication test won`t take place.

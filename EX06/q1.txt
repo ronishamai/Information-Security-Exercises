@@ -1,0 +1,47 @@
+Q1A
+
+
+I looked in IDA at the sudo program, and saw:
+- Password offset start: -0x83 (after last insertion to buffer in "check password", as in sudo.c)
+- Buffer length: 65, as mentiond in the c program.
+- Return address: 0x4 (in the stack variable window).
+
+Calculated:
+0x4-(-0x83) = 0x87, 135 in decimal.
+
+The passwors:
+'a', (135+4) times (4 for the 4-bytes return address).
+
+
+Q1B
+
+
+Addresses:
+
+# &system: 0xb7b4f040
+Since system is not in the PLT, use GDB to find the real address of system which will be loaded at runtime
+(as part of libc): gdb ./sudo -> break main -> run -> print system: 0xb7b4f040.
+(Updated the wanted address inside system in addresses.py).
+
+# $"/bin/sh": 0xb7c96338
+Searched the .rodata section of libc for an occurrence of "/bin/sh": gdb ./sudo -> break main -> run -> info files
+-> (.rodata starts at 0xb7af9000, ends at 0xb7afa1fa) -> find 0xb7af9000, 0xb7afa1fa, "/bin/sh" -> 0xb7c96338.
+
+The password skeleton is from slide 15, lec 5, as we did in class.
+
+
+Q1C
+
+
+Addresses:
+
+# &exit: 0xb7b41990
+Since exit is not in the PLT, use GDB to find the real address of system which will be loaded at runtime (as part
+of libc): gdb ./sudo -> break main -> run -> print exit: 0xb7b41990.
+(Updated the wanted address inside exit in addresses.py).
+
+I did exactly what I did in q1b, with the change of the call to the exit function and giving the correct parameter
+0x42 (66) as a parameter to the exit function, in the correct order of arguments to the stack as we saw in slide 16, lecture 5.
+
+
+

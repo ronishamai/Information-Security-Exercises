@@ -1,0 +1,10 @@
+According to "https://stackoverflow.com/questions/5306741/do-json-keys-need-to-be-unique":
+There is no "error" if you use more than one key with the same name, but in JSON, the last key with the same name is the one that is going to 
+be used. 
+-> So, validate_script method is going to refer to the example command & signature, and will return a True value.
+
+But, execute_script() refers to the command will be executed by: re.search(r'"command": "(.*?)"', data).group(1) This line returns the value that 
+matches the first occurrence of the pattern "command": "<value>" data.
+
+-> So, adding a command "echo hacked" at the beggining, will cause it to be the command that will be executed even if the validation was not 
+performed on it.

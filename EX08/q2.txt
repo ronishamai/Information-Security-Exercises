@@ -1,0 +1,7 @@
+- took the packet structure from:
+  https://stackoverflow.com/questions/37785839/is-it-possible-to-create-a-http-response-via-scapy, and from slide 16 in rec 8.
+- replaced between dst & src ports and ip, to send the packet in the other direction.
+- as we saw in lec 8, we had to put the ack into seq, and seq increased by the packets payload length into ack.
+- the AF flag: close the TCP connection.
+- return the packet filled with those changes in the structure we mentioned above.
+

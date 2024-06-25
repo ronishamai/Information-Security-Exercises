@@ -1,0 +1,18 @@
+I implemented the functions as described in the instructions of the question and according to the given skeleton. 
+
+I implemented the encode function exactly as described - without additional tricks. 
+
+Regarding the function decode - I will emphasize a few important things:
+- the loop that advances EAX by adding NOPS (for me - 0x48, so that it is valid), in order to keep the value
+  (index - eax) to be valid. 
+- In addition, I implemented the trick according to the hint given in the assignment instructions: I wrote a
+  sequence of opcodes that are valid according to the assignment instructions: to get the wanted value into BL,
+  and then XOR with BL. I pushed 0 to the stack and poped into ebx, decremented its value by 1 and then executed
+  the command given in the assignment instructions. R
+
+Regarding the function get_ascii_shellcode - I implemented according to the instructions, and found the start
+address from ESP, and then store the result in EAX: push ESP, pop EAX. 
+
+I implemented the get_payload function in a similar way to q2.py, the difference is the nop slide (0x48 instead of 
+0x90) + the ascii_shell. The calculation of the addresses is the same and written in the text file of the previous 
+assignment.

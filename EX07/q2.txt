@@ -1,0 +1,12 @@
+ # How I found the address to override:
+ 
+ gdb ./antivirus -> break main -> run -> print check_if_virus_code
+ 
+ # Explenation:
+ 
+- Took the template from Rec7, Slide8.
+- Checked the opcode in little endian of 'XOR EAX, EAX; RET;' - a function that always returns 0.
+- Preformed ptrace(PTRACE_POKEDATA, pid, addr, xor_eax_eax_ret_nop): copy the word xor_eax_eax_ret_nop 
+  to the address addr in the tracees memory, when addr is the address of check_if_virus_code (replaced
+   in the python file), and xor_eax_eax_ret_nop is the opcode we created for 'XOR EAX, EAX; RET;'.
+- replaced the pid, check_if_virus_code address in the python file to the right values.

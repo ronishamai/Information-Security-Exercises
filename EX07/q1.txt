@@ -1,0 +1,11 @@
+# How I extracted the process ID:
+
+The payload is a shell script that first specifies that the shell to be used is `/bin/sh` (with a shabang).
+Then, executes the `pgrep` command with the argument `-f antivirus`. 
+The pgrep command searches for a process with with the given name ('antivirus'), and returns it`s process ID (PID).
+
+# The command to kill the antivirus:
+
+Same as before, the payload is a shell script that first specifies that the shell to be used is `/bin/sh`. 
+The command to kill the antivirus is 'kill -15' (when -15 is the default value). The 'kill' instruction parameter 
+is the pid of the process to be killed - the antivirus pid.

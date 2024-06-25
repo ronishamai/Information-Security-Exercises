@@ -1,0 +1,20 @@
+The vulnerability I found in the server program: buffer overflow in the handle_connection method.
+
+We defined a buffer with a fixed size of 1024 bytes, and read into the variable uint32_t size the size of the buffer (as written in the assignment
+instructions, speaking in its first 4 bytes). 
+
+We do not check if it is indeed a size of up to 1024 bytes, and it is possible that it is a larger number.
+
+I looked in IDA at the server program, and saw that the buffer is in the stack at offset -0x40C, and the return address at offset +0x4. Therefore, 
+for example, it is enough to send a message of size 0x40c + 0x4 + 0x4 = 1044 (in decimal) bytes in order to overwrite the return address and crash
+the server program.
+
+The payload i created: 
+# the first 4 bytes: the message length = 1044 
+# the next 1035 bytes: 'a' (1039 times)
+# the next 4 bytes: 'bbbb'
+# the last byte: \0 (terminator)
+(in bytes).
+
+
+

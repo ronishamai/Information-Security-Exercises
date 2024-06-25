@@ -1,0 +1,2 @@
+I calculated the XOR-CHECKSUM as we have done so far, and then I wanted to change only one byte in the array (data[2]) according to the value we want it to have, so that the XOR-CHECKSUM on the message after the change will be equal to the desired value (data[1] = var_9). From the properties of XOR that we saw in the lecture - I understood that the value that should be put instead of data[2] is data[2] XOR var_A XOR var_9, where var_A is the value we calculated before the change, var_9 is the desired value after the change and data[2] is the value we are changing.
+

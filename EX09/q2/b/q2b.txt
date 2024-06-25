@@ -1,0 +1,10 @@
+I used the example given at: https://stackoverflow.com/questions/12524994/encrypt-and-decrypt-using-pycrypto-aes-256.
+
+- Using PyCrypto as we required to do.
+- The Origin msg: "I love you".
+- Block length: 16, because AES data size must be a multiple of 16.
+- Used PKCS7 padding, according to the link you put in the assignment description.
+- Key: i chose - 'This is Julias and Winstons key', sha256 (hashlib).
+- The key length, mode, IV and other parameters - according to the above example above.
+
+

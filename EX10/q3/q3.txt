@@ -1,0 +1,3 @@
+The function validate_script in run.py checks the username, password by ":" index in the string, according to the given template.
+We exploited it by putting an empty username, password - so that the chars comparison will be on 0 chars, which is always True (''=='').
+Then, we executed the 'echo hacked' command.

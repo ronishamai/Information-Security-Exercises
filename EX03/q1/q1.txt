@@ -1,0 +1,72 @@
+Q1A
+
+The program performs a XOR based checksum validation.
+
+Explaination of the reverse engineering on the msgcheck program:
+
+STEP 1 - strings msgcheck:
+Saw "usual" methods (fopen, fclose, fprintf, fread…), potential method for validate msg (validate), print messages ("invalid message", "valid message") and error messages.
+
+STEP 2 - nm:
+Received all the symbols in the program, e.g.: T main, T start and T validate (and their va).
+
+STEP3 - ltrace and strace.
+
+STEP 4 - objdump: 
+A general view of the disassembly (the code struct, the tags...).
+
+STEP 5 - IDA:
+THE MAIN PART! (So far - we have received only a general background on the program).
+-> followed the IDA view according to the order of the prog calls. 
+-> followed the conditions of opening & reading the file successfully (noticed by the comments in the code).
+-> got to the part where we validate the msg (indicated by "valid message", "invalid message" comments). 
+-> clicked on 'validate' symbol, and followed the code.
+
+validate method:
+1. Setting up the stack: 
+Perform "save the beginning" as we saw in rec 1 & allocate 10h = 16d bytes in the stack for local variables.
+2. Initialize variables:
+- arg_0 = 1st arg of msg.
+- var_4 = arg_0 (as a 32 bit sign val, by movzx & movsx).
+- var_9 = 2nd arg of msg addr (8-lsb of arg_0+1, after padding it to 32-bit), xor msg value.
+- var_A = 0x19, our xor-key.
+- var_8 = 0.
+3. Loop:
+- Stop conditions: until var_8 is greater than or equal to var_4 (moving on the msg).
+- Body: load arg_0 + var_8 + 2 to edx, pad with zeros to 32-bit, perform an XOR with var_A, store the result in var_A, and increase var_8 by 1. Compare var_A to var_9. The result (the flag) is transferred to eax, and the function returns. In other words: iterating msg from msg[2] till msg[msg_len-1], and calculating its xor check-sum by the xor-key 0x19. THen, checks if its equal to the given xor-check-sum in msg[1]. Equals iff valid-msg.
+
+
+Q1B
+
+We will choose that the data of the message will be an array of bytes ("bytearray"), which will be exactly like the original array but in the case where the second byte is incorrect (the XOR byte) - we can change this byte only, instead of leaving it incorrect. We will notice that we did not change the message at all - but only the array type, and the second byte if it is not correct.
+
+
+Q1C
+
+I calculated the XOR-CHECKSUM as we have done so far, and then I wanted to change only one byte in the array (data[2]) according to the value we want it to have, so that the XOR-CHECKSUM on the message after the change will be equal to the desired value (data[1] = var_9). From the properties of XOR that we saw in the lecture - I understood that the value that should be put instead of data[2] is data[2] XOR var_A XOR var_9, where var_A is the value we calculated before the change, var_9 is the desired value after the change and data[2] is the value we are changing.
+
+
+Q1D
+
+- I changed the instructions:
+    1. test eax,eax to xor eax,eax so the zf is always 1.
+    2. jnz instruction after validate call to jmp to a fixed address - to the "valid msg" branch address.
+- The changes I made in defining the commands were made according to:
+    1. the instructions opcodes.
+    2. calculations of addresses and offsets (appeared at the bottom of the IDA screen).
+- In practice - what I wanted to do is always to skip the "invalid message" part, and move straight to the "valid message" part.
+- After that - I changed the commands in the correct places in the program array code ("placing" them in it).
+- I padded with nops in order to get the same code length of the program and the patched.
+- I returned the patched after all the changes.
+
+
+Q1E
+
+- I changed the instruction: mov eax,1 in the part of invalid msg (the rerurn value)/
+- The changes I made in defining the command, were made according to:
+    1. the mov instruction opcodes.
+    2. the constatn 0 representation.
+- In practice - what I wanted to do is always to mov to eax that stores the return value the value 0.
+- I padded with nops in order to get the same code length of the program and the patched.
+- I returned the patched after all the changes.
+* notice that the mov here is a 5 bytes instructions, when in q1d the instructions where 2 bytes.

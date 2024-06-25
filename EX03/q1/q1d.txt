@@ -1,0 +1,10 @@
+- I changed the instructions:
+    1. test eax,eax to xor eax,eax so the zf is always 1.
+    2. jnz instruction after validate call to jmp to a fixed address - to the "valid msg" branch address.
+- The changes I made in defining the commands were made according to:
+    1. the instructions opcodes.
+    2. calculations of addresses and offsets (appeared at the bottom of the IDA screen).
+- In practice - what I wanted to do is always to skip the "invalid message" part, and move straight to the "valid message" part.
+- After that - I changed the commands in the correct places in the program array code ("placing" them in it).
+- I padded with nops in order to get the same code length of the program and the patched.
+- I returned the patched after all the changes.

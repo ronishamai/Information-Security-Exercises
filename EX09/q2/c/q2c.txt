@@ -1,0 +1,1 @@
+combined (by logical OR) the condition for LOVE from q2a with the check of shannon_entropy on the decoded payload.

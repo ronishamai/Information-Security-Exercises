@@ -1,0 +1,18 @@
+# Q1.1: q1.pcap:
+    Followed the instructions.
+
+# Q1.2: packet_filter:
+    1. check if it`s a TCP/IP packet.
+    2. check the destination port is 80, HTTP.
+    3. check that the TCP layer contains an HTTP request.
+    4. validate that traffic from the server back to the client should not be kept, by 
+       checking the packet`s http request`s Host is different from WEBSITE url.
+    5. return True in case that 1-4 are true, else false.
+
+# Q1.3: parse_packet:
+    1. check that the packet has an HTTPRequest layer.
+    2. check that the packet has a Raw layer.
+    3. check that the Host in the HTTPRequest layer is the WEBSITE (Filter the course 
+       website using the `WEBSITE` constant).
+    4. extract username, password from the encoded raw.
+    5. return Tuple of username, password if both of them are not empty.

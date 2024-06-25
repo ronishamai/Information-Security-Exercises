@@ -1,0 +1,12 @@
+# the data structire I chose to used: 
+
+A dict, which it`s keys are the ip addresses, and it`s values are lists, s.t. each of the lists contains all the times of the SYN packets in the sliding window.
+
+# generate_block_command:
+
+the command "iptables -A INPUT -s <ip> -j DROP" is used to drop all incoming traffic from the specified ip address.
+
+# on_packet:
+
+We will first check if the ip is in the dictionary or not. If it is not found - we will define a new list for it, and if it is found - then we will go through all the times of the SYN packets in its list and compare it to the current time minus the WINDOW. We will update the appropriate list to contain only the times of the SYN packets that match the condition. Finally, we will check if the amount of times in the ip list is greater than MAX_ATTEMPTS, and if so we will block the current ip.
+

@@ -1,0 +1,13 @@
+I looked in IDA, at the check_password function. I followed the asm code, in parallel with the sudo.c program, and realized that:
+- the buffer is represented by the variable: VAR_20 
+- the auth variable is represented by the variable: VAR_C. 
+
+I went into the stack variable window of the function in IDA, and saw that they are located at the addresses 0000000c and 00000020.
+
+The difference between the above addresses is 0x14 = 20d. It can be understood that they sit on top of each other on the stack.
+
+Therefore, I would like to override the auth value by the last character of the password: I would like the variable auth to be equal to 1, even if the PASSWORD (the expected value) is not the same as the hash value we calculated (on the buffer with the given value using sha256).
+
+Therefore, I chose for the password to be 10 times the character 1, and using os.execl I executed the command given as input (in the assignment instructions), together with the my "melicious" password, and got what was required.
+
+*read about the syntax of the os.execl command at https://docs.python. org/3/library/os.html.

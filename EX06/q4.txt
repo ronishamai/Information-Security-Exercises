@@ -1,0 +1,49 @@
+I will explain the steps I did:
+
+
+# Puts addresses: 0xb7b7a460
+gdb ./sudo -> break main -> run -> p $puts: 0xb7b7a460.
+(Updated the wanted address inside puts in addresses.py).
+
+
+# My string addresses: 0xbfffdfe8
+According to what I did in rec4, I looked at the core file created due to the segmentation fault in question q1a. 
+I performed the following steps:
+
+An overview of the beginning of the buffer:
+- sudo gdb ./sudo core -> info registers -> x/28x ($esp - 200)
+- 'Thisissalt' from string to ascii = 54 68 69 73 69 73 73 61 6c 74, is located at: 0xbfffdf38, buffer beginning.
+- First 'a' in the padding string ('a' from string to ascii = 61), is located at: 0xbfffdf45.
+- Validated it by: x/s 0xbfffdf45 = 'a', when x/s 0xbfffdf44 = 't'.
+
+Finding the address of my string:
+Instead of entering get_string on my ID, I entered the string 'b'*40 which is easier to identify. I performed the 
+same actions as above, and found the beginning of the string at the address 0xbfffdfe8. Then I returned the string 
+to the original string.
+
+
+# Finding the address of the loop back:
+I took the address of the beginning of the 'a' in the password I mentioned before: 0xbfffdf45, I added the 
+buffer_offset, then another 8 bytes so that we get straight to step 2 when step 1 (Load the address of puts into EBP) 
+took 2 bytes as you can see in the code (documented in the comments ).
+
+
+# Extra notes:
+- I executed the rest of the code according to the instructions and steps of the assignment.
+- I used the search we implemented in question 2 for gadgets.
+- I “skipped” 4 bytes on the stack in stage 3 by general instruction: i chose 'pop ebx'.
+- The skeleton is taken from lec5.
+
+
+# Explaination why the loop works after we call puts: the space puts uses is above the return address.
+
+# The next instruction in the ROP after puts, is skipping 4 bytes on the stack. This 4-byte skip is necessary 
+because we want to ignore the return address of puts. which is the next value on stack after puts address.
+
+# Where and how did I included my string in the ROP: its address as an argument to puts.
+
+
+
+
+
+

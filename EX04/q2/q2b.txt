@@ -1,0 +1,15 @@
+I opened the core dump with GDB, and did sort of analysis:
+
+- Found where the buffer begins: X = 0xbfffdfc9 
+(how? used: x/28x ($esp - 128) -> calculated 0xbfffdfc0 + 9 = 0xbfffdfc9, bcs i saw see there 'AAA' = 414141, in little endian)
+
+- Found at which offset from the beginning of the buffer, we have the value we want to “update”: Y = 0x43 = 67d bytes
+(how? saw in info registers, eip = 0x52525251 -> used: x/28x ($esp - 64) -> saw that the address of 0x52525251 is 0xbfffe000 + 12 = 0xbfffe00c -> calculated the offset by 0xbfffe00c - 0xbfffdfc9 = 0x43 = 67d)
+  
+shellcode.asm:
+Used slide 16 from recitation 4 as my code skeleton, for executing the execve command by running the syscall (with the call trick we saw) with "/bin/sh\0". The main changes I made:
+- Nops slide: calculated the size of the buffer and subtracted from it the length of the shellcode.asm program (67 - 29 = 38 NOPs at the beginning of the shellcode program).
+- Made sure that there are no '0' explicitly, by using XOR as we saw in the recitation.
+
+q2b.py:
+Transferred the shellcode.asm file in the assembly to os.execl as the password parameter, after converting it to the appropriate format, and concatenated to it  the X address. To sumup, I create a buffer of size Y, beginning with the shellcode, followed by padding - until we reach a length of Y, and then finally add the address X.

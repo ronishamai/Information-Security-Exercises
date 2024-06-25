@@ -1,0 +1,20 @@
+ADDRESSES:
+
+check_if_virus GOT address:
+objdump -D ./antivirus -M intel --section=.plt
+0x804c020 (of the jmp)
+(used rec 5 slide 18)
+
+Other function with a similar signature address: check_if_live_patch
+gdb ./antivirus -> break main -> run -> print check_if_live_patch
+0xb7fc8362
+
+Explenation:
+
+- Used the second alternate from rec7.
+- Used the skeleton from rec7, slide 8.
+- Preformed ptrace(PTRACE_POKEDATA, pid, addr_check_if_virus, addr_check_if_virus_alternative):
+  copy addr_check_if_virus_alternative to the address addr in the tracees memory, when addr is
+  the GOT address of check_if_virus (replaced in the python file, also the address of the alternate 
+  taken from addresses.py).
+- replaced the pid, check_if_virus_code address, addr_check_if_virus_alternative in the python file to the right values.

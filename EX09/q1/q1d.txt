@@ -1,0 +1,11 @@
+# sent a SYN ACK packet:
+    
+    ip-dst <- ip-src
+    port-dst <- port-src
+    port-src <- port-dst
+    flsgs <- 'SA', indicates a SYN ACK packet
+    
+    The exchange in the fields is done because we want to reply; the sender will be the receiver, and the receiver will be sender.
+    
+# for every SYN:
+    indicated by 'S' flag.

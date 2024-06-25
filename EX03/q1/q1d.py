@@ -1,0 +1,55 @@
+def patch_program_data(program: bytes) -> bytes:
+    """
+    Implement this function to return the patched program. This program should
+    return 0 for all input files.
+
+    :param data: The bytes of the source program.
+    :return: The bytes of the patched program.
+    """
+    # the offset of the test instruction after validate call
+    test_offset = 0x6C9 
+    
+    # 0x31 instead of 0xA8 (op-code)
+    # 0xC0 for eax, eax
+    xor_inst =  bytes([0x31,0xC0]) 
+    
+    # the offset of the jnz instruction after validate call
+    jnz_offset = 0x6CB 
+    
+    # 0xEB instead of 0x75 (op-code) 
+    # offset of jnz - offset of next wanted instruction = 0x6E4 - 0x6CB = 0x19
+    uncond_jmp = bytes([0xEB,0x17]) 
+
+    # changing the instructions in the program
+    
+    patched = program[:test_offset] + xor_inst + program[test_offset+2:jnz_offset] + uncond_jmp + program[jnz_offset+2:]
+    
+    # nop's s.t. |program| = |patched|
+    patched += b'\x90' * (len(program) - len(patched))
+    
+    # return patched program
+    return patched
+    
+    raise NotImplementedError()
+
+
+def patch_program(path):
+    with open(path, 'rb') as reader:
+        data = reader.read()
+    patched = patch_program_data(data)
+    with open(path + '.patched', 'wb') as writer:
+        writer.write(patched)
+
+
+def main(argv):
+    if len(argv) != 2:
+        print('USAGE: python {} <msgcheck-program>'.format(argv[0]))
+        return -1
+    path = argv[1]
+    patch_program(path)
+    print('done')
+
+
+if __name__ == '__main__':
+    import sys
+    sys.exit(main(sys.argv))

@@ -1,0 +1,4 @@
+The vulnerability I found in the firewall`s design & relation to DoS attack:
+
+The firewall checks only the number of SYN packects from an ip in the last 60 seconds, and blocks this ip address in case of the number is greater then MAX_ATTEMPS. The attacker can exploit this by sending a lot of SYN packets from multiple ip`s (s.t. the firewall won`t be able to recognize only one address of him and to block it). The result of this would be that the victim machine won`t be able to handle traffic anymore - a DoS attack.
+

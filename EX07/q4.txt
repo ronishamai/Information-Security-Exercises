@@ -1,0 +1,10 @@
+Read system call details, taken from: https://www.tutorialspoint.com/assembly_programming/assembly_system_calls.htm.
+
+In a while loop that checks if the process has not exited normally, we do:
+ptrace with PTRACE_SYSCALL, then gets the registers by ptrace with PTRACE_GETREGS into user_regs_struct struct, 
+then checks for read syscall that can be identify be eax = 3, and in case of read sys call - change edx register 
+which contains the length to 0 by ptrace with 
+
+PTRACE_SETREGS on our register struct.
+
+The rest of the code is the same as q2, q3.

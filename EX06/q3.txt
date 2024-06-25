@@ -1,0 +1,18 @@
+# Addresses:
+- &auth: 0x804a054
+        gdb ./sudo -> break main -> run -> p $auth: 0x804a054.
+        (Updated the wanted address inside auth in addresses.py).
+- return address: = 0x080488B0
+        The offset of the instruction after the Call to "check password" inside main.
+
+
+# The write gadget is a gadget I implemented:
+(1) pop eax: '0xb7b36177' (by: print(s.find_all('pop eax')))
+(2) pop edx: '0xb7b3ea7c' (by: print(s.find_all('pop edx')))
+(3) mov [eax],edx: '0xb7c08314' (by: print(s.find_all('mov [eax],edx')))
+(when s = GadgetSearch("libc.bin"))
+
+# The order of arguments on stack: as we saw in rec6.
+
+# The code skeleton: slide 15 in lec5.
+

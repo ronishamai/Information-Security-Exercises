@@ -1,0 +1,11 @@
+patch1.asm:
+Calculated the sub between the offsets of the big & small deadzones, and jumped (the redirection action) from the small to the big by this calculation-offser.
+
+patch2.asm:
+As first, i made a jump to be after the nops part in the code, then, i made a comparison of the 1st char to #, if not equal - jumped to befire printf, calculated by substruct the offsets appeared in the IDA (the specific calculation is a comment in the code).
+Did the exact thing for the 2nd char with "!" instead of #.
+If the string starts with #! - called system, calculated by: -(0x5CD-0x460), and then jumped back to after printf.
+I pushued ebx i used to the stack at the start and poped it at the end.
+
+Py:
+Used assemble.assemble_file and replaced the right parts (by the offsets of small&bid deadzones, in the code comments - found by IDA) of the program with the patch1,2.

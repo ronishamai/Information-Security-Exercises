@@ -1,0 +1,8 @@
+Addresses:
+
+# &exit: 0xb7b41990
+Since exit is not in the PLT, use GDB to find the real address of system which will be loaded at runtime (as part of libc): gdb ./sudo -> break main -> run -> print exit: 0xb7b41990.
+(Updated the wanted address inside exit in addresses.py).
+
+I did exactly what I did in q1b, with the change of the call to the exit function and giving the correct parameter 0x42 (66) as a parameter to the exit function, in the correct order of arguments to the stack as we saw in slide 16, lecture 5.
+

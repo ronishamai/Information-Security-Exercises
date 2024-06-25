@@ -1,0 +1,2 @@
+We check if undefined is retrieve from the gif search in localStorage, means that cat GIF doesn`t exist in localStorage. If it happens, we set the flag to indicate that the  cat GIF was already loaded, otherwise we hide it. Thats how Edward can share a cat GIF with his colleagues s.t. the image to disappear once they view it.
+I chose the cat GIF in https://media.giphy.com/media/u98zWbe3jgJoI/giphy.gif.

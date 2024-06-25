@@ -1,0 +1,1 @@
+We can see in the handle_message function of the server, that in case of a message starts with /, join action, and a channel name starts with "#", it calls the add_channel function which executes it, So, i chose to put a script instead, which sends a post request on http://localhost:8000/post contains a Good Morning! message to the general-spam channel, using the fetch function.
